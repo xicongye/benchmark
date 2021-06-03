@@ -1,0 +1,20 @@
+On Linux
+dhrystone-O2: 1.560
+dhrystone-O3: 1.572
+dhrystone-O3-flto: 2.663
+
+coremark-O2: 2.352
+coremark-O2-vector: 2.832
+
+STREAM-O2: 88.7/55.8/63.4/64.9
+
+Baremetal:
+dhrystone-O2: 
+dhrystone-O3: 
+dhrystone-O3-flto:
+
+coremark-O2:
+coremark-O2-vector:
+
+STREAM-O2:
+

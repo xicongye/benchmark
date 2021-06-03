@@ -58,10 +58,23 @@ core_bench_state(ee_u32 blksize,
 #if CORE_DEBUG
     ee_printf("State Bench: %d,%d,%d,%04x\n", seed1, seed2, step, crc);
 #endif
+#ifdef RVV
+    asm(
+        "li    a0, 8\n"
+        "vsetvli    t0, a0, e32, m8\n"
+        "vmv.v.i    v8, 0\n"
+        "vse32.v    v8, (%[final_counts])\n"
+        "vse32.v    v8, (%[track_counts])\n"
+        :
+        : [final_counts]"r"(final_counts), [track_counts]"r"(track_counts)
+        : "a0", "t0"
+    );
+#else
     for (i = 0; i < NUM_CORE_STATES; i++)
     {
         final_counts[i] = track_counts[i] = 0;
     }
+#endif
     /* run the state machine over the input */
     while (*p != 0)
     {

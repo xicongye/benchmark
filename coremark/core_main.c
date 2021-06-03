@@ -33,6 +33,7 @@ Original Author: Shay Gal-on
         Returns:
         NULL.
 */
+#define CORE_FREQ	50 * 1000 * 1000
 static ee_u16 list_known_crc[]   = { (ee_u16)0xd4b0,
                                    (ee_u16)0x3340,
                                    (ee_u16)0x6a79,
@@ -420,6 +421,7 @@ for (i = 0; i < MULTITHREAD; i++)
 #if (MULTITHREAD > 1)
             ee_printf(" / %d:%s", default_num_contexts, PARALLEL_METHOD);
 #endif
+            ee_printf("\n\nScore: %6.3f CoreMark/MHz", (default_num_contexts*results[0].iterations/time_in_secs(total_time))/(CORE_FREQ/1000000));
             ee_printf("\n");
         }
 #endif

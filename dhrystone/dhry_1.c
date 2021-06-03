@@ -17,6 +17,11 @@
 
 #include "dhry.h"
 
+#ifndef DHRY_ITERS
+#define DHRY_ITERS 2000
+#endif
+
+#define CORE_FRQ 50 * 1000 * 1000
 /* Global Variables: */
 
 Rec_Pointer     Ptr_Glob,
@@ -45,7 +50,7 @@ Enumeration     Func_1 ();
 
 #ifdef TIMES
 struct tms      time_info;
-extern  int     times ();
+//extern  int     times ();
                 /* see library function "times" */
 #define Too_Small_Time (2*HZ)
                 /* Measurements should last at least about 2 seconds */
@@ -118,6 +123,9 @@ main ()
     printf ("Program compiled without 'register' attribute\n");
     printf ("\n");
   }
+#ifdef DHRY_ITERS
+  Number_Of_Runs = DHRY_ITERS;
+#else
   printf ("Please give the number of runs through the benchmark: ");
   {
     int n;
@@ -125,6 +133,7 @@ main ()
     Number_Of_Runs = n;
   }
   printf ("\n");
+#endif
 
   printf ("Execution starts, %d runs through Dhrystone\n", Number_Of_Runs);
 
@@ -278,10 +287,13 @@ main ()
                         / (float) User_Time;
 #endif
     printf ("Microseconds for one run through Dhrystone: ");
-    printf ("%6.1f \n", Microseconds);
+    //printf ("%6.1f \n", Microseconds);
+    printf ("%d \n", (int)Microseconds);
     printf ("Dhrystones per Second:                      ");
-    printf ("%6.1f \n", Dhrystones_Per_Second);
+    //printf ("%6.1f \n", Dhrystones_Per_Second);
+    printf ("%d \n", (int)Dhrystones_Per_Second);
     printf ("\n");
+    printf ("Score: %6.3f Dhrystone/MHz\n", Dhrystones_Per_Second/(CORE_FRQ/1000000*1757));
   }
   
 }
